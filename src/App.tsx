@@ -1,5 +1,34 @@
 
+import './App.css'
 import Login from './pages/Login'
-export default function App() {
-  return <Login />
+import Home from './pages/Home'
+import Reports from './pages/Reports'
+import ErrorPage from './pages/ErrorPage.tsx'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    errorElement: <ErrorPage />, // página de error para rutas no existentes
+    children: [
+      {
+        index: true,
+        element: <Login />
+      },
+      {
+        path: 'home',
+        element: <Home />
+      },
+      {
+        path: 'reports',
+        element: <Reports />
+      }
+    ]
+  }
+])
+
+function App() {
+  return <RouterProvider router={router} />
 }
+
+export default App
