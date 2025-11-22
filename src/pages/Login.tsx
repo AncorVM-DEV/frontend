@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react'
 import {
   Box,
@@ -8,13 +7,17 @@ import {
   Alert,
   Container,
   Paper,
-  Avatar
+  Avatar,
 } from '@mui/material'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import { useNavigate } from 'react-router-dom'
 
-const bdUser = 'ancor'      
-const bdPasswd = '1234'     
+// Redux
+import { useDispatch } from 'react-redux'
+import { authActions } from '../store/authSlice'
+
+const bdUser = 'ancor'  
+const bdPasswd = '1234'  
 
 export default function Login() {
   const [usuario, setUsuario] = useState('')
@@ -22,30 +25,43 @@ export default function Login() {
   const [error, setError] = useState<string | null>(null)
 
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault() // esto evita recargar la página 
+    e.preventDefault() // no recarga la página
 
     console.log('Usuario introducido:', usuario)
     console.log('Contraseña introducida:', password)
 
     if (usuario === bdUser && password === bdPasswd) {
-      
       setError(null)
-      navigate('/home') // nos vamos a /home cuando es correcto 
 
-      // VERSIÓN SOLO PARTE I (si quieres hacer primero las capturas del Alert de éxito):
-       // setError(null)
-       // setOk('Acceso concedido. Bienvenido/a.')
+      const data = { user: usuario }
+
+      // Cambiamos el estado del store a login
+      dispatch(
+        authActions.login({
+          name: data.user,
+          rol: 'administrador', // o 'invitado', 'standard', etc.
+        }),
+      )
+
+      // Navegamos a /home
+      navigate('/home')
     } else {
       setError('Usuario o contraseña incorrectos.')
     }
   }
 
   return (
-    <Container maxWidth="xs" sx={{ minHeight: '100vh', display: 'flex', alignItems: 'center' }}>
+    <Container
+      maxWidth="xs"
+      sx={{ minHeight: '100vh', display: 'flex', alignItems: 'center' }}
+    >
       <Paper sx={{ p: 4, width: '100%' }} elevation={3}>
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mb: 2 }}>
+        <Box
+          sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mb: 2 }}
+        >
           <Avatar sx={{ mb: 1 }}>
             <LockOutlinedIcon />
           </Avatar>
@@ -54,10 +70,7 @@ export default function Login() {
           </Typography>
         </Box>
 
-        <Box
-          component="form"
-          onSubmit={handleSubmit}
-        >
+        <Box component="form" onSubmit={handleSubmit}>
           <TextField
             label="Usuario"
             fullWidth
@@ -72,7 +85,7 @@ export default function Login() {
             fullWidth
             margin="normal"
             required
-            type="password" // para que no se vea lo que escribimos 
+            type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -83,12 +96,7 @@ export default function Login() {
             </Alert>
           )}
 
-          <Button
-            type="submit"
-            variant="contained"
-            fullWidth
-            sx={{ mt: 2 }}
-          >
+          <Button type="submit" variant="contained" fullWidth sx={{ mt: 2 }}>
             Acceder
           </Button>
         </Box>
