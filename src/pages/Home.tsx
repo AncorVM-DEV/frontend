@@ -6,6 +6,8 @@ import type { RootState } from '../store'
 import { authActions } from '../store/authSlice'
 // Router
 import { useNavigate } from 'react-router-dom'
+import Dashboard from '../components/Dashboard'
+import Menu from '../components/Menu'
 
 export default function Home() {
   const navigate = useNavigate()
@@ -20,20 +22,25 @@ export default function Home() {
   }
 
   return (
-    <Box sx={{ p: 3 }}>
-      <Typography variant="h4" gutterBottom>
-        Página Home de Ancor Valentín Martín
-      </Typography>
+    <Box>
+      <Menu />
+      <Box sx={{ p: 3 }}>
+        <Typography variant="h4" gutterBottom>
+          Página Home de Ancor Valentín Martín
+        </Typography>
 
-      <Typography sx={{ mb: 2 }}>
-        {userData.isAutenticated
-          ? `Hola, ${userData.userName} (${userData.userRol})`
-          : 'No has iniciado sesión.'}
-      </Typography>
+        <Typography sx={{ mb: 2 }}>
+          {userData.isAutenticated
+            ? `Hola, ${userData.userName} (${userData.userRol})`
+            : 'No has iniciado sesión.'}
+        </Typography>
 
-      <Button variant="outlined" onClick={manejarSalir}>
-        Salir
-      </Button>
+        <Dashboard />
+
+        <Button variant="outlined" onClick={manejarSalir} sx={{ mt: 2 }}>
+          Salir
+        </Button>
+      </Box>
     </Box>
   )
-} 
+}
