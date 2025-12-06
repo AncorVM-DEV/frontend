@@ -1,5 +1,6 @@
 // src/components/Dashboard.tsx
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import {
   Box,
   Button,
@@ -33,6 +34,11 @@ const itemInitialState: ItemType = {
 const Dashboard: React.FC = () => {
   const [item, setItem] = useState<ItemType>(itemInitialState);
   const [tablaDatos, setTablaDatos] = useState<ItemType[]>([]);
+
+  // Obtener rol del store
+  // @ts-ignore
+  const userData = useSelector((state: any) => state.authenticator);
+  const isAdmin = userData?.userRol === 'admin';
 
   // --------- Cargar cartas al entrar ----------
   async function cargarItems() {
@@ -200,12 +206,14 @@ const Dashboard: React.FC = () => {
             {tablaDatos.map((fila) => (
               <TableRow key={fila.id}>
                 <TableCell>
-                  <Button
-                    onClick={() => manejarBorrar(fila.id)}
-                    title="Borrar carta"
-                  >
-                    <DeleteForeverIcon />
-                  </Button>
+                  {isAdmin && (
+                    <Button
+                      onClick={() => manejarBorrar(fila.id)}
+                      title="Borrar carta"
+                    >
+                      <DeleteForeverIcon />
+                    </Button>
+                  )}
                 </TableCell>
                 <TableCell>{fila.nombre}</TableCell>
                 <TableCell>{fila.marca}</TableCell>

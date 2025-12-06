@@ -16,8 +16,8 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { authActions } from '../store/authSlice'
 
-const bdUser = 'ancor'  
-const bdPasswd = '1234'  
+const bdUser = 'ancor'
+const bdPasswd = '1234'
 
 export default function Login() {
   const [usuario, setUsuario] = useState('')
@@ -33,16 +33,31 @@ export default function Login() {
     console.log('Usuario introducido:', usuario)
     console.log('Contraseña introducida:', password)
 
-    if (usuario === bdUser && password === bdPasswd) {
-      setError(null)
+    let rol = ''
+    let authenticated = false
 
+    // Gestión de usuarios hardcodeados
+    if (usuario === 'Patricia' && password === '123456789') {
+      rol = 'admin'
+      authenticated = true
+    } else if (usuario === 'user' && password === '123456789') {
+      rol = 'user'
+      authenticated = true
+    } else if (usuario === bdUser && password === bdPasswd) {
+      // Mantener usuario antiguo por si acaso
+      rol = 'admin'
+      authenticated = true
+    }
+
+    if (authenticated) {
+      setError(null)
       const data = { user: usuario }
 
       // Cambiamos el estado del store a login
       dispatch(
         authActions.login({
           name: data.user,
-          rol: 'administrador', // o 'invitado', 'standard', etc.
+          rol: rol,
         }),
       )
 

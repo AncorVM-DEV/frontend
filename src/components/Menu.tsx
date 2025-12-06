@@ -49,11 +49,20 @@ export default function Menu() {
                     </ListItemButton>
                 </ListItem>
                 <ListItem disablePadding>
-                    <ListItemButton component={Link} to="/reports">
-                        <ListItemIcon><AssessmentIcon /></ListItemIcon>
-                        <ListItemText primary="Informes" />
+                    <ListItemButton component={Link} to="/home">
+                        <ListItemIcon><HomeIcon /></ListItemIcon>
+                        <ListItemText primary="Inicio" />
                     </ListItemButton>
                 </ListItem>
+                {/* 2.1 Gestión de permisos: sólo el usuario con rol admin va a poder generar informes */}
+                {userData.userRol === 'admin' && (
+                    <ListItem disablePadding>
+                        <ListItemButton component={Link} to="/reports">
+                            <ListItemIcon><AssessmentIcon /></ListItemIcon>
+                            <ListItemText primary="Informes" />
+                        </ListItemButton>
+                    </ListItem>
+                )}
                 <ListItem disablePadding>
                     <ListItemButton>
                         <ListItemIcon><HelpIcon /></ListItemIcon>
@@ -92,7 +101,8 @@ export default function Menu() {
                             <Typography variant="body1" sx={{ mr: 1 }}>
                                 {userData.userName}
                             </Typography>
-                            <AccountCircle />
+                            {/* 2.3 Diferenciación de iconos de usuario según el rol */}
+                            {userData.userRol === 'admin' ? <AccountCircle /> : <span style={{ fontSize: '1.5rem' }}>🦉</span>}
                         </Box>
                     )}
                 </Toolbar>
