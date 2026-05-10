@@ -8,6 +8,7 @@ import {
   Container,
   Paper,
   Avatar,
+  Tooltip,
 } from '@mui/material'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import { useNavigate } from 'react-router-dom'
@@ -111,9 +112,12 @@ export default function Login() {
             </Alert>
           )}
 
-          <Button type="submit" variant="contained" fullWidth sx={{ mt: 2 }}>
-            Acceder
-          </Button>
+          {/* Le pongo un Tooltip al botón de acceder para que avise al usuario de qué hace antes de pulsarlo */}
+          <Tooltip title="Pulsa aquí para entrar con tu usuario y contraseña" arrow placement="top">
+            <Button type="submit" variant="contained" fullWidth sx={{ mt: 2 }}>
+              Acceder
+            </Button>
+          </Tooltip>
         </Box>
       </Paper>
     </Container>

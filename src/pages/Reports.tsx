@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Box, Button, Typography, CircularProgress, Alert } from '@mui/material'
+import { useState } from 'react'
+import { Box, Button, Typography, CircularProgress, Alert, Tooltip } from '@mui/material'
 import InformeColeccion from '../components/InformeColeccion'
 
 export default function Reports() {
@@ -34,14 +34,19 @@ export default function Reports() {
       </Typography>
 
       <Box sx={{ my: 4 }}>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleGenerateReport}
-          disabled={loading}
-        >
-          {loading ? 'Generando...' : 'INFORME COLECCION'}
-        </Button>
+        {/* Le pongo un Tooltip al botón para avisar de que va a tirar de la BBDD a generar el informe */}
+        <Tooltip title="Genera el informe de la colección consultando la base de datos" arrow placement="top">
+          <span>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleGenerateReport}
+              disabled={loading}
+            >
+              {loading ? 'Generando...' : 'INFORME COLECCION'}
+            </Button>
+          </span>
+        </Tooltip>
       </Box>
 
       {loading && <CircularProgress />}

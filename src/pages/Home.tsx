@@ -1,5 +1,4 @@
-import React from 'react'
-import { Box, Typography, Button } from '@mui/material'
+import { Box, Typography, Button, Tooltip } from '@mui/material'
 // Redux
 import { useSelector, useDispatch } from 'react-redux'
 import type { RootState } from '../store'
@@ -37,9 +36,12 @@ export default function Home() {
 
         <Dashboard />
 
-        <Button variant="outlined" onClick={manejarSalir} sx={{ mt: 2 }}>
-          Salir
-        </Button>
+        {/* Aviso al usuario con un Tooltip de que este botón cierra la sesión */}
+        <Tooltip title="Cierra la sesión y vuelve al login" arrow placement="right">
+          <Button variant="outlined" onClick={manejarSalir} sx={{ mt: 2 }}>
+            Salir
+          </Button>
+        </Tooltip>
       </Box>
     </Box>
   )

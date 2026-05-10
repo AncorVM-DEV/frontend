@@ -12,6 +12,7 @@ import {
   TableHead,
   TableRow,
   TextField,
+  Tooltip,
   Typography,
 } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -183,9 +184,12 @@ const Dashboard: React.FC = () => {
               mt: { xs: 1, md: 0 },
             }}
           >
-            <Button type="submit" variant="contained">
-              + Insertar carta
-            </Button>
+            {/* Tooltip para que se vea claro que este botón guarda la carta nueva en la BBDD */}
+            <Tooltip title="Guarda la carta nueva en la base de datos" arrow placement="top">
+              <Button type="submit" variant="contained">
+                + Insertar carta
+              </Button>
+            </Tooltip>
           </Box>
         </Box>
       </Paper>
@@ -206,13 +210,13 @@ const Dashboard: React.FC = () => {
             {tablaDatos.map((fila) => (
               <TableRow key={fila.id}>
                 <TableCell>
+                  {/* Solo el admin puede borrar (UT3A1). Le pongo Tooltip de MUI con la flechita en vez del title nativo */}
                   {isAdmin && (
-                    <Button
-                      onClick={() => manejarBorrar(fila.id)}
-                      title="Borrar carta"
-                    >
-                      <DeleteForeverIcon />
-                    </Button>
+                    <Tooltip title="Borra esta carta de la colección" arrow placement="right">
+                      <Button onClick={() => manejarBorrar(fila.id)}>
+                        <DeleteForeverIcon />
+                      </Button>
+                    </Tooltip>
                   )}
                 </TableCell>
                 <TableCell>{fila.nombre}</TableCell>
