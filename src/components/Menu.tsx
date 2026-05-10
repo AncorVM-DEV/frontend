@@ -66,7 +66,7 @@ export default function Menu() {
                 <ListItem disablePadding>
                     {/* Aquí pongo el enlace a mi PDF de manual con target='_blank' para que se abra en otra pestaña y no me cierre la app */}
                     <Tooltip title="Abre el manual de usuario en una nueva pestaña" arrow placement="right">
-                        <ListItemButton component={Link} to="/Valentin_Martin_Ancor_UT4A1.pdf" target="_blank">
+                        <ListItemButton component={Link} to="/Valentin_Martin_Ancor_UT2A4.pdf" target="_blank">
                             <ListItemIcon><HelpIcon /></ListItemIcon>
                             <ListItemText primary="Ayuda" />
                         </ListItemButton>
