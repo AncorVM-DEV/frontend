@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Informe técnico (entrega aparte, no se sube al repo)
+Informe_Tecnico_UT4A1.md
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

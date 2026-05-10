@@ -1,4 +1,5 @@
 import React from 'react';
+import { Box, Paper, Typography } from '@mui/material';
 import MaterialTable from '@material-table/core';
 import { ExportCsv, ExportPdf } from '@material-table/exporters';
 
@@ -15,10 +16,10 @@ interface InformeColeccionProps {
 }
 
 const InformeColeccion: React.FC<InformeColeccionProps> = ({ data }) => {
-    // Calculamos la suma de precios
-    const totalPrecio = data.reduce((acc, curr) => acc + curr.precio, 0);
+    // Saco la suma de los precios (consigna UT3A1: mostrar el total de la colección)
+    const totalPrecio = data.reduce((acc, curr) => acc + Number(curr.precio || 0), 0);
 
-    // Columnas
+    // Columnas que voy a mostrar en la tabla
     const columns = [
         { title: 'Nombre', field: 'nombre' },
         { title: 'Marca', field: 'marca', filtering: true },
@@ -31,20 +32,12 @@ const InformeColeccion: React.FC<InformeColeccionProps> = ({ data }) => {
             <MaterialTable
                 title="Informe de Colección"
                 columns={columns}
-                data={[
-                    ...data,
-                    // Fila de total (hack para mostrar total al final si se desea, 
-                    // aunque material-table tiene summary features, lo haremos simple si no se pide explícitamente summary row feature compleja)
-                    // La instrucción dice: "realizar la suma de los precios de nuestra colección y mostrarlo en la tabla."
-                    // Una forma es añadir una fila extra o usar summary render.
-                    // Vamos a intentar usar la prop de renderSummaryRow si existe en @material-table/core o simplemente mostrarlo en el título o footer.
-                    // Pero @material-table/core tiene support para summary.
-                ]}
+                data={data}
                 // @ts-ignore
                 options={{
-                    draggable: true, // mover columnas
-                    columnsButton: true, // elegir qué columnas mostrar
-                    filtering: true, // filtrar
+                    draggable: true, // dejo mover las columnas
+                    columnsButton: true, // botón para elegir qué columnas se ven
+                    filtering: true, // habilito filtros por columna
                     exportMenu: [
                         {
                             label: 'Exportar a PDF',
@@ -56,28 +49,28 @@ const InformeColeccion: React.FC<InformeColeccionProps> = ({ data }) => {
                         },
                     ],
                     headerStyle: {
-                        backgroundColor: '#01579b', // Colores personalizados acorde a la paleta (azul oscuro)
+                        backgroundColor: '#01579b', // azul oscuro de mi paleta
                         color: '#FFF',
                     },
                     rowStyle: {
                         backgroundColor: '#EEE',
                     },
                 }}
-                // Summary row implementation
-                components={{
-                    Body: (props) => (
-                        <>
-                            <props.components.Body {...props} />
-                            <tr style={{ background: '#f5f5f5', fontWeight: 'bold' }}>
-                                <td colSpan={3} style={{ textAlign: 'right', padding: '10px' }}>Total Precio:</td>
-                                <td style={{ padding: '10px' }}>{totalPrecio.toFixed(2)} €</td>
-                            </tr>
-                        </>
-                    )
-                }}
             />
+
+            {/* Antes intentaba meter el total como una fila extra dentro del Body de la tabla
+                pero eso me reventaba el componente porque props.components.Body no existe en
+                @material-table/core v6. Lo saco fuera en un Paper, queda más limpio y no peta. */}
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+                <Paper sx={{ px: 3, py: 1.5, backgroundColor: '#f5f5f5' }}>
+                    <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+                        Total Precio: {totalPrecio.toFixed(2)} €
+                    </Typography>
+                </Paper>
+            </Box>
         </div>
     );
 };
 
 export default InformeColeccion;
+
